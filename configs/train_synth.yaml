@@ -1,0 +1,37 @@
+# LoRA SFT on the combined synthetic dataset (5 domain generators).
+# Build the data first:
+#   .venv/bin/python -m jev.data.synthgen.build --domains all \
+#       --per-domain 600 --val-per-domain 100 --out data/synthetic
+# Run: .venv/bin/python -m jev.train.sft --config configs/train_synth.yaml
+
+base_model: HuggingFaceTB/SmolVLM2-500M-Video-Instruct
+
+train_data: data/synthetic/train.jsonl
+val_data: data/synthetic/val.jsonl
+
+out: runs/jev-mini-synth-lora
+seed: 42
+
+max_steps: null
+num_train_epochs: 1
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 4
+learning_rate: 1.0e-4
+lr_scheduler_type: cosine
+warmup_ratio: 0.03
+logging_steps: 10
+
+eval: true
+eval_steps: 100
+save_strategy: steps
+save_steps: 500
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.1
+  # target_modules defaults to the language-only regex in jev.train.sft
+
+# Stock SmolVLM2 processor expands every image to 1088 tokens, so image
+# examples run ~1600-2600 tokens; keep the raised guard.
+max_token_len: 2600

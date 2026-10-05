@@ -1,0 +1,35 @@
+# Real LoRA fine-tune defaults for jev on SmolVLM2-500M.
+# Data is produced by the data pipeline (not the smoke synth set).
+# Run: .venv/bin/python -m jev.train.sft --config configs/train_lora.yaml
+
+base_model: HuggingFaceTB/SmolVLM2-500M-Video-Instruct
+
+train_data: data/processed/train.jsonl
+val_data: data/processed/val.jsonl
+
+out: runs/jev-mini-lora
+seed: 42
+
+max_steps: null
+num_train_epochs: 2
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 4
+learning_rate: 1.0e-4
+lr_scheduler_type: cosine
+warmup_ratio: 0.03
+logging_steps: 10
+
+eval: true
+eval_steps: 250
+save_strategy: steps
+save_steps: 250
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.1
+  # target_modules defaults to the language-only regex in jev.train.sft
+
+# Stock SmolVLM2 processor expands any image to up to 1088 image tokens
+# (4x4 patch split + global, 64 tokens per tile); keep the guard generous.
+max_token_len: 2600

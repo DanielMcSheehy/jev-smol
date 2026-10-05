@@ -1,0 +1,98 @@
+# jev data pipeline starter config.
+# Build:  .venv/bin/python -m jev.data.build --config configs/data_starter.yaml --out data/processed
+# Sample: .venv/bin/python -m jev.data.build --config configs/data_starter.yaml --sample --out data/processed
+#
+# count        = full-build target per source
+# sample_count = rows produced in --sample mode (~30 each)
+# params       = per-source converter knobs
+
+sources:
+  # ---------------- TEXT ----------------
+  snli:
+    dataset: stanfordnlp/snli
+    config: plain_text
+    split: train
+    enabled: true
+    count: 3000
+    sample_count: 30
+    license: CC-BY-SA-4.0
+
+  ultrafeedback:
+    dataset: openbmb/UltraFeedback
+    split: train
+    enabled: true
+    count: 5000
+    sample_count: 30
+    license: MIT
+
+  aegis:
+    dataset: nvidia/Aegis-AI-Content-Safety-Dataset-1.0
+    split: train
+    enabled: true
+    count: 1500
+    sample_count: 30
+    license: CC-BY-4.0
+    params:
+      category_scan_rows: 2000   # derive the "category" option list from these rows
+
+  router:
+    dataset: codelion/optillm-router-dataset
+    split: train
+    enabled: true
+    count: 500
+    sample_count: 30
+    license: Apache-2.0
+
+  jev_distill:
+    dataset: SargeDev/jev-distill-corpus-v3
+    split: train
+    enabled: true
+    count: 3000
+    sample_count: 20
+    license: Apache-2.0
+    params:
+      ambiguity_gap: 0.05        # skip soft targets whose top-1 lead is smaller
+
+  # ---------------- IMAGE ----------------
+  vqav2:
+    dataset: Multimodal-Fatima/VQAv2_sample_train
+    split: train
+    enabled: true
+    count: 1000
+    sample_count: 30
+    license: CC-BY-4.0
+
+  textvqa:
+    dataset: lmms-lab/textvqa
+    split: train
+    enabled: true
+    count: 3000
+    sample_count: 30
+    license: CC-BY-2.0   # images from OpenImages; card states no license
+
+  coco:
+    dataset: jxie/coco_captions
+    split: train
+    enabled: true
+    count: 1000
+    sample_count: 30
+    license: CC-BY-4.0   # COCO images (Flickr TOS); card states no license
+
+  ai2d:
+    dataset: lmms-lab/ai2d
+    split: test
+    enabled: false
+    count: 2000
+    sample_count: 0
+    license: UNKNOWN     # no license on card; AI2D is research-oriented
+    disable_reason: license unclear (no card license; upstream AI2D research-only)
+
+  docvqa:
+    dataset: lmms-lab/DocVQA
+    config: DocVQA
+    split: validation
+    enabled: false
+    count: 2500
+    sample_count: 0
+    license: Apache-2.0  # per card; re-verify before commercial use
+    disable_reason: too heavy for sample runs (always disabled in starter config)
