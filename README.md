@@ -187,6 +187,7 @@ The base model answers before fine-tuning — expect meaningful-but-uncalibrated
 * [Cloudflare: CLEF decision models](https://blog.cloudflare.com/clef-decision-models/) · [Cloudflare/clef](https://huggingface.co/Cloudflare/clef) · [Cloudflare/clef-flash](https://huggingface.co/Cloudflare/clef-flash)
 * [SmolVLM2-500M-Video-Instruct](https://huggingface.co/HuggingFaceTB/SmolVLM2-500M-Video-Instruct)
 * Research notes: `docs/research/clef-api.md`, `docs/research/smolvlm2-finetuning.md`, `docs/research/datasets.md`
+* Project journal (plain-language notes on why it's built this way, how training works, and the bugs fought along the way): [docs/journal/](docs/journal/01-why-this-shape.md)
 
 ## License
 
